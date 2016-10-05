@@ -1,0 +1,27 @@
+#!/bin/bash
+
+gcc -S -O2 int32x4.c
+
+#general
+sed -i '.original' 's/movdqa/movdqu/g' *.s
+
+sed -i '.original' 's/movaps/movups/g' *.s
+
+#add
+sed -i '.original' 's/paddd	\((%[a-z]\{3\})\), %xmm0/movdqu	\1, %xmm1\
+  paddd	%xmm1, %xmm0/g' *.s
+
+#subt
+sed -i '.original' 's/psubd	\((%[a-z]\{3\})\), %xmm0/movdqu	\1, %xmm1\
+  psubd	%xmm1, %xmm0/g' *.s
+
+#xor
+sed -i '.original' 's/[[:blank:]]xorps	\((%[a-z]\{3\})\), %xmm0/  movups	\1, %xmm1\
+  xorps	%xmm1, %xmm0/g' *.s
+
+#or
+sed -i '.original' 's/[[:blank:]]orps	\((%[a-z]\{3\})\), %xmm0/  movups	\1, %xmm1\
+  orps	%xmm1, %xmm0/g' *.s
+
+gcc -c int32x4.s
+mlton -debug true -codegen c -default-ann 'allowFFI true' -export-header export.h  main.mlb int32x4.o
