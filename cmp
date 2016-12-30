@@ -25,4 +25,4 @@ gcc -S -O2 int32x4.c
 #
 gcc -c int32x4.s
 
-~/mlton/build/bin/mlton -align 16 -debug true -codegen c -default-ann 'allowFFI true' -export-header export.h  main.mlb int32x4.o
+~/mlton/build/bin/mlton -align 8 -debug true -codegen c -default-ann 'allowFFI true' -export-header export.h  main.mlb int32x4.o
