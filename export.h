@@ -90,6 +90,14 @@ typedef Int32_t Bool;
 typedef String8_t NullString8_t;
 typedef String8_t NullString8;
 
+/*SIMD*/
+typedef Word8 SIMD8 __attribute__ ((vector_size (16), aligned(16)));
+typedef Word16 SIMD16 __attribute__ ((vector_size (16), aligned(16)));
+typedef Word32 SIMD32 __attribute__ ((vector_size (16), aligned(16)));
+typedef Word64 SIMD64 __attribute__ ((vector_size (16), aligned(16)));
+
+
+
 typedef void* CPointer;
 typedef Pointer Objptr;
 #endif /* _MLTON_MLTYPES_H_ */
