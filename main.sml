@@ -15,23 +15,20 @@ fun serialAdd (l1, l2) =
   | (x::xs, []) => x :: (serialAdd (xs, []))
   | (x::xs, y::ys) => (x + y) :: (serialAdd (xs, ys))
 
-fun serialLoop num = 
-  if num <= 0
-  then al
-  else serialAdd(bl, serialLoop (num - 1))
+
+fun addLoop (a, b) add num = let
+  fun l (n, acc) = 
+    if n <= 0
+    then acc 
+    else l (n - 1, add(b, acc))
+in
+ l (num, a)
+end
 
 fun listToString l = "[" ^ String.concatWith ", " (List.map Word32.toString l) ^ "]"
-
-fun parallelLoop parallelAdd num =
-  if num <= 0
-  then a 
-  else parallelAdd (b, parallelLoop parallelAdd (num - 1))
-
-
-fun simdLoop num = 
-  if num <= 0
-  then aSimd 
-  else Vml.simdAdd(bSimd, simdLoop (num - 1))
+val serialLoop = addLoop (al, bl) serialAdd
+val parallelLoop = addLoop (a, b)
+val simdLoop = addLoop (aSimd, bSimd) Vml.simdAdd
 
 
 fun test (loop, toString, label) = let
@@ -50,11 +47,9 @@ in
 end
 
 
-val _ = test(simdLoop, Vml.toString o Vml.simdToVector, "Parallel SIMD Type")
-(*
 val _ = test(serialLoop, listToString, "Serial")
 val _ = test(parallelLoop Vml.libAdd, Vml.toString, "Parallel Library")
 val _ = test(parallelLoop Vml.add, Vml.toString, "Parallel Runtime")
-*)
+val _ = test(simdLoop, Vml.toString o Vml.simdToVector, "Parallel SIMD Type")
 
 
