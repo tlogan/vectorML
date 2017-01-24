@@ -1,6 +1,6 @@
 #!/bin/bash
 
-gcc -S -O2 word32SIMD.c
-gcc -c word32SIMD.s
+gcc -S -O2 simd.c
+gcc -c simd.s
 
-~/mlton/build/bin/mlton -align 8 -debug true -codegen c -default-ann 'allowFFI true' -export-header export.h  main.mlb word32SIMD.o
+~/mlton/build/bin/mlton -align 16 -debug true -codegen c -default-ann 'allowFFI true' -export-header export.h  main.mlb simd.o

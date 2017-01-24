@@ -52,6 +52,7 @@ typedef uint32_t Word32_t;
 typedef uint32_t Word32;
 typedef uint64_t Word64_t;
 typedef uint64_t Word64;
+typedef uint8_t Word128 __attribute__ ((vector_size (16), aligned(16)));
 
 typedef Int8_t WordS8_t;
 typedef Int8_t WordS8;
@@ -90,13 +91,10 @@ typedef Int32_t Bool;
 typedef String8_t NullString8_t;
 typedef String8_t NullString8;
 
-/*SIMD*/
-typedef Word8 SIMD8 __attribute__ ((vector_size (16), aligned(16)));
-typedef Word16 SIMD16 __attribute__ ((vector_size (16), aligned(16)));
-typedef Word32 SIMD32 __attribute__ ((vector_size (16), aligned(16)));
-typedef Word64 SIMD64 __attribute__ ((vector_size (16), aligned(16)));
-
-
+typedef Word8 WordSimd8x16 __attribute__ ((vector_size (16), aligned(16)));
+typedef Word16 WordSimd16x8 __attribute__ ((vector_size (16), aligned(16)));
+typedef Word32 WordSimd32x4 __attribute__ ((vector_size (16), aligned(16)));
+typedef Word64 WordSimd64x2 __attribute__ ((vector_size (16), aligned(16)));
 
 typedef void* CPointer;
 typedef Pointer Objptr;
