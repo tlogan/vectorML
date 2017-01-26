@@ -52,7 +52,6 @@ typedef uint32_t Word32_t;
 typedef uint32_t Word32;
 typedef uint64_t Word64_t;
 typedef uint64_t Word64;
-typedef uint8_t Word128 __attribute__ ((vector_size (16), aligned(16)));
 
 typedef Int8_t WordS8_t;
 typedef Int8_t WordS8;

@@ -49,7 +49,6 @@ end
 
 val _ = test(serialLoop, listToString, "Serial")
 val _ = test(parallelLoop Vml.libAdd, Vml.toString, "Parallel Library")
-val _ = test(parallelLoop Vml.add, Vml.toString, "Parallel Runtime")
 val _ = test(simdLoop, Vml.toString o Vml.simdToVector, "Parallel SIMD Type")
 
 

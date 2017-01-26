@@ -1,7 +1,6 @@
 signature VML = sig
   val fromList:  Word32.word list -> Word32.word vector
   val toString: Word32.word vector -> string
-  val add: Word32.word vector * Word32.word vector -> Word32.word vector
   val libAdd: Word32.word vector * Word32.word vector -> Word32.word vector
   val simdAdd: WordSimd32x4.wordSimd * WordSimd32x4.wordSimd -> WordSimd32x4.wordSimd
   val simdFromVector: Word32.word vector -> WordSimd32x4.wordSimd
@@ -26,8 +25,6 @@ structure Vml: VML = struct
   in
     Array.vector c
   end
-
-  val add = binaryOp (_import "pvector32x4_add" : Word32.word vector * Word32.word vector * Word32.word array -> unit;)
 
   val libAdd = binaryOp (_import "libAdd" : Word32.word vector * Word32.word vector * Word32.word array -> unit;)
 
