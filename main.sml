@@ -2,18 +2,19 @@
 val al = map Word32.fromInt [7,16,18,40]
 val bl = map Word32.fromInt [2,3,4,5]
 
-val a = Vml.fromList al
-val b = Vml.fromList bl
+fun listToTuple l = (List.nth (l, 0), List.nth (l, 1), List.nth (l, 2), List.nth (l, 3))
+fun tupleToList (a, b, c, d) = [a, b, c, d]
 
-val aSimd = Vml.simdFromVector a
-val bSimd = Vml.simdFromVector b
+val at = listToTuple al
+val bt = listToTuple bl
 
-fun serialAdd (l1, l2) = 
-  case (l1, l2) of 
-    ([], []) => [] 
-  | ([], y::ys) => y :: (serialAdd([], ys))
-  | (x::xs, []) => x :: (serialAdd (xs, []))
-  | (x::xs, y::ys) => (x + y) :: (serialAdd (xs, ys))
+val av = Vml.fromList al
+val bv = Vml.fromList bl
+
+val aSimd = Vml.simdFromVector av
+val bSimd = Vml.simdFromVector bv
+
+fun serialAdd ((a1, b1, c1, d1), (a2, b2, c2, d2)) =  (a1 + a2, b1 + b2, c1 + c2, d1 + d2)
 
 
 fun addLoop (a, b) add num = let
@@ -26,10 +27,6 @@ in
 end
 
 fun listToString l = "[" ^ String.concatWith ", " (List.map Word32.toString l) ^ "]"
-val serialLoop = addLoop (al, bl) serialAdd
-val parallelLoop = addLoop (a, b)
-val simdLoop = addLoop (aSimd, bSimd) Vml.simdAdd
-
 
 fun test (loop, toString, label) = let
   val interationSize = 2000000 
@@ -47,8 +44,8 @@ in
 end
 
 
-val _ = test(serialLoop, listToString, "Serial")
-val _ = test(parallelLoop Vml.libAdd, Vml.toString, "Parallel Library")
-val _ = test(simdLoop, Vml.toString o Vml.simdToVector, "Parallel SIMD Type")
+val _ = test(addLoop (at, bt) serialAdd, listToString o tupleToList, "Serial")
+val _ = test(addLoop (av, bv)  Vml.libAdd, Vml.toString, "Parallel Library")
+val _ = test(addLoop (aSimd, bSimd) Vml.simdAdd, Vml.toString o Vml.simdToVector, "Parallel SIMD Type")
 
 
