@@ -1,6 +1,3 @@
 #!/bin/bash
 
-gcc -S -O2 simd.c
-gcc -c simd.s
-
-~/mlton/build/bin/mlton -align 16 -debug true -codegen c -default-ann 'allowFFI true' -export-header export.h  main.mlb simd.o
+~/mlton/build/bin/mlton -align 16 -debug true -codegen c -default-ann 'allowFFI true' -export-header export.h  main.mlb
