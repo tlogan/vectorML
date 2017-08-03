@@ -20,8 +20,16 @@ fun toString v = String.concat [
 ]
 
 
-fun serialBin rator ((a1, b1, c1, d1), (a2, b2, c2, d2)) =  
-  (rator (a1, a2), rator (b1, b2), rator (c1, c2), rator (d1, d2))
+fun serialBin rator ((a1, b1, c1, d1), (a2, b2, c2, d2)) = let
+  val r1 = rator (a1, a2) handle _ => a1
+  val r2 = rator (b1, b2) handle _ => b1
+  val r3 = rator (c1, c2) handle _ => c1
+  val r4 = rator (d1, d2) handle _ => d1
+in
+  (r1, r2, r3, r4)
+end
+
+fun parallelBin rator (x, y) = (rator (x, y) handle _ => x)
 
 fun binLoop (a, b) bin num = let
   fun l (n, acc) = 
@@ -35,7 +43,7 @@ end
 fun listToString l = "[" ^ String.concatWith ", " (List.map Word32.toString l) ^ "]"
  
 fun run (loop, toString, label) = let
-  val interationSize = 15000000 
+  val interationSize = 2 
   val startTime = (Time.now ())
   val res = loop interationSize
   val endTime = (Time.now ())
@@ -54,7 +62,7 @@ fun compare (serRator, parRator, label) = let
 
   val _ = print ("Operator: " ^ label ^  "\n")
   val (serRes, serTime) = run (binLoop (at, bt) (serialBin serRator), listToString o tupleToList, "Serial  ")
-  val (parRes, parTime) = run (binLoop (aSimd, bSimd) parRator, toString o WordSimd32x4.toVector, "Parallel")
+  val (parRes, parTime) = run (binLoop (aSimd, bSimd) (parallelBin parRator), toString o WordSimd32x4.toVector, "Parallel")
 
   val serResList = tupleToList serRes
   val parResList = Vector.foldr (op ::) [] (WordSimd32x4.toVector parRes)
@@ -71,7 +79,7 @@ end
 
 val _ = compare (Word32.+, WordSimd32x4.+, "add")
 
-val allCorrect = List.all (fn (b, _) => b) (List.map compare [
+val allCorrect1 = List.all (fn (b, _) => b) (List.map compare [
   (Word32.+, WordSimd32x4.+, "add")
 , (Word32.andb, WordSimd32x4.andb, "andb")
 , (Word32.*, WordSimd32x4.*, "mul")
@@ -80,7 +88,26 @@ val allCorrect = List.all (fn (b, _) => b) (List.map compare [
 , (Word32.xorb, WordSimd32x4.xorb, "xorb")
 ]) 
 
-val _ = print ("all correct : " ^ (Bool.toString allCorrect) ^ "\n")
+val _ = print ("group 1 correct: " ^ (Bool.toString allCorrect1) ^ "\n\n")
+
+(*
+val allCorrect2 = List.all (fn (b, _) => b) (List.map compare [
+  (Word32.<<, WordSimd32x4.<<?, "lshift")
+, (Word32.div, WordSimd32x4.quot, "div/quot") 
+, (Word32.mod, WordSimd32x4.rem, "mod/rem")
+, (Word32.~>>, WordSimd32x4.~>>?, "S_rshift")
+, (Word32.>>, WordSimd32x4.>>?, "U_rshift")
+]) 
+val _ = print ("group 2 correct: " ^ (Bool.toString allCorrect2) ^ "\n\n")
+*)
+
+(*
+val allCorrect3 = List.all (fn (b, _) => b) (List.map compare [
+  (Word32.rol, WordSimd32x4.rolUnsafe, "rol/rolUnsafe")
+, (Word32.ror, WordSimd32x4.rorUnsafe, "ror/rorUnsafe")
+]) 
+val _ = print ("group 3 correct: " ^ (Bool.toString allCorrect3) ^ "\n\n")
+*)
 
 
 (*
