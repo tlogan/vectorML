@@ -1,3 +1,58 @@
 #!/bin/bash
 
-~/mlton/build/bin/mlton -align 16 -const 'Exn.keepHistory true' -debug true -codegen c -default-ann 'allowFFI true' -export-header export.h  main.mlb
+~/mlton/build/bin/mlton -align 16 -debug true -codegen c -default-ann 'allowFFI true' -export-header export.h -keep ssa2 main.mlb
+
+
+
+#~/mlton/build/bin/mlton -align 16 -const 'Exn.keepHistory true' -debug true -codegen c -default-ann 'allowFFI true' -export-header export.h -keep ssa2 -trace "PackedRepresentation.typeRep" main.mlb
+
+# -verbose 2 -type-check true 
+ 
+
+#~/mlton/build/bin/mlton -align 16 -debug true -codegen c -default-ann 'allowFFI true' -export-header export.h -keep ssa2 -verbose 3 -type-check true -trace 'PackedRepresentation.typeRep,PackedRepresentation.tupleRep' main.mlb 
+#
+
+#~/mlton/build/bin/mlton -align 16 -debug true -codegen c -default-ann 'allowFFI true' -export-header export.h -keep ssa2 -verbose 3 -type-check true -trace 'PackedRepresentation.typeRep,PackedRepresentation.tupleRep' main.mlb 
+#
+
+#emacs -nw ~/mlton/mlton/backend/packed-representation.fun 
+#
+#~/mlton/build/bin/mlton.traced -align 16 -debug true -codegen c -default-ann 'allowFFI true' -export-header export.h -keep ssa2 -verbose 3 -type-check true -trace 'PackedRepresentation.typeRep,PackedRepresentation.tupleRep' main.mlb 
+#
+#emacs -nw ~/mlton/mlton/backend/packed-representation.fun 
+#
+#make -C ~/mlton smlnj-mlton
+#
+
+#~/mlton/build/bin/mlton.traced -align 16 -debug true -codegen c -default-ann 'allowFFI true' -export-header export.h -keep ssa2 -verbose 3 -type-check true -trace 'PackedRepresentation.typeRep,PackedRepresentation.tupleRep' main.mlb 
+#
+
+#~/mlton/build/bin/mlton -align 16 -debug true -codegen c -default-ann 'allowFFI true' -export-header export.h -keep ssa2 -verbose 3 -type-check true -trace 'PackedRepresentation.typeRep,PackedRepresentation.tupleRep' main.mlb 
+#
+
+#~/mlton/build/bin/mlton -align 16 -debug true -codegen c -default-ann 'allowFFI true' -export-header export.h -keep ssa2 -keep rssa -verbose 3 -type-check true -trace 'PackedRepresentation.typeRep,PackedRepresentation.tupleRep' main.mlb 
+#
+
+#~/mlton/build/bin/mlton -align 16 -debug true -codegen c -default-ann 'allowFFI true' -export-header export.h -keep ssa2 -keep-pass toRssa -keep rssa -verbose 3 -type-check true -trace 'PackedRepresentation.typeRep,PackedRepresentation.tupleRep' main.mlb 
+#
+
+#emacs -nw ~/mlton/mlton/backend/backend.fun 
+#
+
+#make -C ~/mlton smlnj-mlton
+#
+
+#~/mlton/build/bin/mlton -align 16 -debug true -codegen c -default-ann 'allowFFI true' -export-header export.h -keep ssa2 -keep-pass toRssa -keep rssa -verbose 3 -type-check true -trace 'PackedRepresentation.typeRep,PackedRepresentation.tupleRep' main.mlb
+#
+
+#emacs -nw ~/mlton/mlton/backend/backend.fun 
+
+#emacs -nw ~/mlton/mlton/backend/rssa.fun 
+
+#~/mlton/build/bin/mlton -align 16 -debug true -codegen c -default-ann 'allowFFI true' -export-header export.h -keep ssa2 -keep-pass toRssa -keep rssa -verbose 3 -type-check true -trace 'PackedRepresentation.typeRep,PackedRepresentation.tupleRep' main.mlb
+
+#make -C ~/mlton smlnj-mlton
+
+#~/mlton/build/bin/mlton -align 16 -debug true -codegen c -default-ann 'allowFFI true' -export-header export.h -keep ssa2 -keep-pass toRssa -keep rssa -verbose 3 -type-check true -trace 'PackedRepresentation.typeRep,PackedRepresentation.tupleRep' main.mlb
+
+#emacs -nw ~/mlton/mlton/backend/rep-type.fun 
